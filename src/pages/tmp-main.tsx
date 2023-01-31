@@ -1,10 +1,11 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import "./tmp-main.styles.css";
+import { Header } from "../components";
 
 export default function TmpMain() {
   return (
     <div>
+      <Header />
       <Outlet />
     </div>
   );

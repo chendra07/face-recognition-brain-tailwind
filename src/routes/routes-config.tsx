@@ -10,7 +10,7 @@ function RouterConfig() {
     <Routes>
       <Route path="/" element={<PgLogin />} />
       <Route path="resource" element={<TmpMain />}>
-        <Route path="home" element={<PgLogin />} />
+        <Route path="home" element={<PgHome />} />
         <Route path="settings" element={<PgLogin />} />
       </Route>
       {/* <Route path="*" element={<p>404 not found</p>} /> */}

@@ -15,6 +15,17 @@ module.exports = {
         "scr-600-less": { max: "60rem" },
         "scr-400-less": { max: "40rem" },
       },
+      colors: {
+        blue: "#1fb6ff",
+        purple: "#7e5bef",
+        pink: "#ff49db",
+        orange: "#ff7849",
+        green: "#13ce66",
+        yellow: "#ffc82c",
+        "gray-dark": "#273444",
+        gray: "#8492a6",
+        "gray-light": "#d3dce6",
+      },
     },
   },
   plugins: [

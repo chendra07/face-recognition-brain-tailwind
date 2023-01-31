@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import "./pg-home.styles.css";
 
 //redux
 import { RootState } from "../redux/store";

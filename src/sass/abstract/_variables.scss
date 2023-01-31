@@ -1,11 +1,6 @@
 :root {
   --color-primary: #ff5edf;
-  --color-primary-dark: darken(--color-primary, 20%);
-  --color-primary-light: lighten(--color-primary, 20%);
-
   --color-secondary: #04c8de;
-  --color-secondary-dark: darken(--color-primary, 20%);
-  --color-secondary-light: lighten(--color-primary, 20%);
 
   --color-grey-light-1: #faf9f9;
   --color-grey-light-2: #f4f2f2;
@@ -37,5 +32,5 @@
   // FONT
   --default-font-size: 3.6rem;
 
-  --default-border-radius: 15px;
+  --default-border-radius: 20px;
 }
