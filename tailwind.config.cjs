@@ -18,12 +18,12 @@ module.exports = {
     },
   },
   plugins: [
-    plugin(function ({ addBase }) {
-      addBase({
-        html: { fontSize: "62.5%" },
-        //default browser fontsize: 16
-        //16 * 62.5% == 10px (1rem === 10px)
-      });
-    }),
+    // plugin(function ({ addBase }) {
+    //   addBase({
+    //     html: { fontSize: "62.5%" },
+    //     //default browser fontsize: 16
+    //     //16 * 62.5% == 10px (1rem === 10px)
+    //   });
+    // }),
   ],
 };

@@ -2,13 +2,13 @@ import React, { useEffect } from "react";
 import "./pg-home.styles.css";
 
 //redux
-import { RootState } from "../../redux/store";
+import { RootState } from "../redux/store";
 import { useSelector, useDispatch } from "react-redux";
-import { storeFlightData } from "../../redux/slices/flight.slice";
-import { decrement, increment } from "../../redux/slices/counter.slice";
+import { storeFlightData } from "../redux/slices/flight.slice";
+import { decrement, increment } from "../redux/slices/counter.slice";
 
 //requests
-import { httpgetAllFlight } from "../../requests/flight";
+import { httpgetAllFlight } from "../requests/flight";
 
 export default function PgHome() {
   const dispatch = useDispatch();

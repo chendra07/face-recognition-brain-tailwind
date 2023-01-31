@@ -1,8 +1,8 @@
 //template
-import TmpMain from "./tmp-main/tmp-main.component";
+import TmpMain from "./tmp-main";
 
 //pages
-import PgLogin from "./pg-login/pg-login.component";
-import PgHome from "./pg-home/pg-home.component";
+import PgLogin from "./pg-login";
+import PgHome from "./pg-home";
 
 export { TmpMain, PgLogin, PgHome };

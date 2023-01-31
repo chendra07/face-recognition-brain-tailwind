@@ -6,6 +6,11 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "compile:sass": "node-sass src/sass/main.scss src/index.css",
+    "watch:sass": "nodemon -e scss -x \"npm run compile:sass\"",
+    "prefix:css": "postcss --use autoprefixer -b \"last 10 versions\" src/index.css -o src/index.css",
+    "compress:css": "node-sass src/index.css src/index.css --output-style compressed",
+    "build:css": "npm run compile:sass && npm run prefix:css && npm run compress:css",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -25,6 +30,8 @@
     "@types/react-dom": "^18.0.9",
     "@vitejs/plugin-react": "^3.0.1",
     "autoprefixer": "^10.4.13",
+    "node-sass": "^8.0.0",
+    "nodemon": "^2.0.20",
     "postcss": "^8.4.21",
     "tailwindcss": "^3.2.4",
     "typescript": "^4.9.3",

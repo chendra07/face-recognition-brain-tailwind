@@ -1,5 +1,8 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Routes, Route, redirect } from "react-router-dom";
+
+import { RootState } from "../redux/store";
 import { TmpMain, PgLogin, PgHome } from "../pages";
 
 function RouterConfig() {

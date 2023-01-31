@@ -1,0 +1,9 @@
+.card {
+  flex: 1;
+  display: flex;
+  margin: 1rem;
+  padding: 1rem;
+  background-color: whitesmoke;
+  box-shadow: var(--card-box-shadow);
+  border-radius: var(--default-border-radius);
+}
