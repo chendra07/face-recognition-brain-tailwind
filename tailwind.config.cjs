@@ -4,27 +4,20 @@ const plugin = require("tailwindcss/plugin");
 module.exports = {
   content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
   mode: "jit",
+  darkMode: "class",
   theme: {
     extend: {
       screens: {
-        "scr-1400-more": { min: "140rem" }, //@media (min-width: 1400px) { ... }
-        "scr-1400-less": { max: "140rem" }, //@media (max-width: 1400px) { ... }
-        "scr-1200-less": { max: "120rem" },
-        "scr-1000-less": { max: "100rem" },
-        "scr-800-less": { max: "80rem" },
-        "scr-600-less": { max: "60rem" },
-        "scr-400-less": { max: "40rem" },
+        "scr-1400-more": { min: "1400px" }, //@media (min-width: 1400px) { ... }
+        "scr-1400-less": { max: "1400px" }, //@media (max-width: 1400px) { ... }
+        "scr-1200-less": { max: "1200px" },
+        "scr-1000-less": { max: "1000px" },
+        "scr-800-less": { max: "800px" },
+        "scr-600-less": { max: "600px" },
+        "scr-400-less": { max: "400px" },
       },
       colors: {
-        blue: "#1fb6ff",
-        purple: "#7e5bef",
-        pink: "#ff49db",
-        orange: "#ff7849",
-        green: "#13ce66",
-        yellow: "#ffc82c",
-        "gray-dark": "#273444",
-        gray: "#8492a6",
-        "gray-light": "#d3dce6",
+        "ease-white": "#E8EAE6",
       },
     },
   },

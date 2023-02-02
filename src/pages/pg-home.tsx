@@ -17,5 +17,5 @@ export default function PgHome() {
     });
   }, []);
 
-  return <div></div>;
+  return <div>Home</div>;
 }

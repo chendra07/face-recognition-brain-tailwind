@@ -2,7 +2,7 @@
 import TmpMain from "./tmp-main";
 
 //pages
-import PgLogin from "./pg-login";
+import PgAuth from "./pg-auth";
 import PgHome from "./pg-home";
 
-export { TmpMain, PgLogin, PgHome };
+export { TmpMain, PgAuth, PgHome };

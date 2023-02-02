@@ -16,11 +16,7 @@ html {
 
 body {
   min-height: 100vh;
-  background: linear-gradient(
-    89deg,
-    --color-primary 0%,
-    --color-secondary 100%
-  );
+  // background: linear-gradient(89deg, #ff5edf 0%, #04c8de 100%);
   background-repeat: no-repeat;
   background-size: cover;
 }
