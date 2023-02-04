@@ -1,28 +1,35 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import { clsx } from "clsx";
-import { RootState } from "../redux/store";
 
 type btnProps = {
   children: JSX.Element | string;
-  action: () => void;
+  action?: () => void;
   className?: string;
   isDisable?: boolean;
+  type?: "button" | "submit" | "reset";
 };
 
 const disabledPreset = " disabled:opacity-75 disabled:cursor-not-allowed";
 
-function Primary({ action, children, className, isDisable = false }: btnProps) {
+function Primary({
+  action,
+  children,
+  className,
+  isDisable = false,
+  type = "button",
+}: btnProps) {
   return (
     <button
       onClick={action}
       disabled={isDisable}
+      type={type}
       className={clsx(
         className,
-        "m-2 px-6 py-2 rounded-md transition-all",
+        "px-6 py-2 rounded-md transition-all",
         "bg-slate-500 shadow-gray-500 shadow-md text-gray-200",
         "dark:bg-gray-200 dark:shadow-gray-700 dark:text-slate-500",
-        "enabled:hover:shadow-gray-700 enabled:hover:translate-y-[-3px] enabled:active:translate-y-[3px]  enabled:hover:shadow-lg enabled:active:shadow-none",
+        "enabled:hover:shadow-gray-700 enabled:hover:translate-y-[-3px] enabled:hover:shadow-lg",
+        "enabled:active:translate-y-[3px] enabled:active:shadow-none",
         disabledPreset
       )}
     >
@@ -31,11 +38,18 @@ function Primary({ action, children, className, isDisable = false }: btnProps) {
   );
 }
 
-function Outline({ action, children, className, isDisable = false }: btnProps) {
+function Outline({
+  action,
+  children,
+  className,
+  isDisable = false,
+  type = "button",
+}: btnProps) {
   return (
     <button
       onClick={action}
       disabled={isDisable}
+      type={type}
       className={clsx(
         className,
         "m-2 px-6 rounded-md transition-all",
@@ -56,24 +70,49 @@ function Underline({
   children,
   className,
   isDisable = false,
+  type = "button",
 }: btnProps) {
-  const { isDark } = useSelector((state: RootState) => state.theme);
   return (
     <button
       onClick={action}
       disabled={isDisable}
+      type={type}
       className={clsx(
-        "m-2 border-b-2 border-x-0 border-t-0 px-6",
-        "border-solid",
-        isDark
-          ? [
-              "text-gray-200 border-gray-200",
-              "enabled:hover:bg-gray-200 enabled:hover:text-slate-500",
-            ]
-          : [
-              "text-slate-500 border-slate-500",
-              "enabled:hover:bg-slate-500 enabled:hover:text-gray-200",
-            ],
+        "m-2 px-6",
+        "border-b-2 border-x-0 border-t-0 border-solid",
+        "text-slate-500 border-slate-500",
+        "enabled:hover:bg-slate-500 enabled:hover:text-gray-200",
+        "dark:text-gray-200 dark:border-gray-200",
+        "enabled:dark:hover:bg-gray-200 enabled:dark:hover:text-slate-500",
+        "active:opacity-80",
+        "transition-all",
+        disabledPreset,
+        className
+      )}
+    >
+      {children}
+    </button>
+  );
+}
+
+function hoverBg({
+  action,
+  children,
+  className,
+  isDisable = false,
+  type = "button",
+}: btnProps) {
+  return (
+    <button
+      onClick={action}
+      disabled={isDisable}
+      type={type}
+      className={clsx(
+        "px-6",
+        "text-slate-500",
+        "dark:text-gray-200",
+        "enabled:hover:bg-slate-500 enabled:hover:text-gray-200",
+        "enabled:dark:hover:bg-gray-200 enabled:dark:hover:text-slate-500",
         "active:opacity-80",
         "transition-all",
         disabledPreset,
@@ -89,4 +128,5 @@ export default {
   Primary,
   Outline,
   Underline,
+  hoverBg,
 };

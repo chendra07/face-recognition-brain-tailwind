@@ -3,19 +3,25 @@ import React, { useEffect } from "react";
 //redux
 import { RootState } from "../redux/store";
 import { useSelector, useDispatch } from "react-redux";
-import { storeFlightData } from "../redux/slices/flight.slice";
-import { decrement, increment } from "../redux/slices/counter.slice";
 
 //requests
-import { httpgetAllFlight } from "../requests/flight";
+import { httpGetDummyUnauthorized } from "../requests/user";
+import { toast } from "react-hot-toast";
+import Button from "../components/button";
 
 export default function PgHome() {
   const dispatch = useDispatch();
-  useEffect(() => {
-    httpgetAllFlight().then((data) => {
-      dispatch(storeFlightData(data));
-    });
-  }, []);
 
-  return <div>Home</div>;
+  function runMe() {
+    httpGetDummyUnauthorized().catch((error) => {
+      toast.error(error.message);
+    });
+  }
+
+  return (
+    <div>
+      <p>Home</p>
+      <Button.Primary action={runMe}>Fetch</Button.Primary>
+    </div>
+  );
 }

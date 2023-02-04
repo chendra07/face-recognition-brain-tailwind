@@ -14,6 +14,7 @@ module.exports = {
         "scr-1000-less": { max: "1000px" },
         "scr-800-less": { max: "800px" },
         "scr-600-less": { max: "600px" },
+        "scr-500-less": { max: "500px" },
         "scr-400-less": { max: "400px" },
       },
       colors: {

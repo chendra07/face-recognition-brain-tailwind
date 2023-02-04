@@ -1,6 +1,9 @@
 import axios from "axios";
 import { z } from "zod";
+import { useNavigate } from "react-router-dom";
 import { fromZodError } from "zod-validation-error";
+import { deleteUser } from "../redux/slices/user.slice";
+import { store } from "../redux/store";
 
 const renderHeaders = (headerCfg?: object | null, uploadFile?: File | null) => {
   let header;
@@ -29,9 +32,9 @@ function generateQueryParams(request: object) {
 
 //zod used for validation when using axios
 const zodAxiosSchema = z.object({
-  statusCode: z.number().gt(0, "invalid status code"),
   message: z.string(),
-  data: z.unknown().nullable(),
+  data: z.any().nullable(),
+  statusCode: z.number(),
 });
 
 const zodAxiosConfig = z.object({
@@ -53,25 +56,61 @@ export type AxiosSchema = z.infer<typeof zodAxiosSchema>;
 type AxiosConfig = z.infer<typeof zodAxiosConfig>;
 
 function axiosPromise(axiosConfig: AxiosConfig) {
+  const CancelToken = axios.CancelToken;
+  const source = CancelToken.source();
+  const maxTimeout = 20 * 1000;
+  const connectionTimeout = setTimeout(() => {
+    //used to throw an error when connection did not return at the specified time
+    source.cancel();
+  }, maxTimeout);
+
   return new Promise<AxiosSchema>((resolve, reject) => {
-    axios(axiosConfig)
-      .then((resp: unknown) => {
+    axios({ ...axiosConfig, cancelToken: source.token })
+      .then((resp) => {
+        if (!resp) {
+          throw new Error("No response form the server");
+        }
+
+        const finalOutput = {
+          message: resp.data.message,
+          data: resp.data.data,
+          statusCode: resp.status,
+        };
+
         //[uncomment this code after define the zodAxiosSchema and AxiosSchema]
-        const respValidation = zodAxiosSchema.safeParse(resp);
+        const respValidation = zodAxiosSchema.safeParse(finalOutput);
 
         //validating object from axios using zod
         if (!respValidation.success) {
-          return reject(
-            `(${axiosConfig.method.toUpperCase()}): ${
+          return reject({
+            message: `(${axiosConfig.method.toUpperCase()}): ${
               fromZodError(respValidation.error).message
-            }`
-          );
+            }`,
+          });
         }
-        return resolve(resp as AxiosSchema);
+
+        return resolve(finalOutput as AxiosSchema);
       })
       .catch((error) => {
-        return reject(`(${axiosConfig.method.toUpperCase()}): ${error}`);
-      });
+        if (axios.isCancel(error)) {
+          return reject({
+            message: `Unable to connect, please try again`,
+          });
+        }
+
+        if (error?.response?.status === 401) {
+          store.dispatch(deleteUser());
+          location.reload();
+          return reject({
+            message: `Session timeout, please login again`,
+          });
+        }
+
+        return reject({
+          message: `(${axiosConfig.method.toUpperCase()}): ${error}`,
+        });
+      })
+      .finally(() => clearTimeout(connectionTimeout));
   });
 }
 
@@ -89,7 +128,7 @@ async function Get(
 
   const getAxiosConfig: AxiosConfig = {
     method: "get",
-    baseURL: baseUrl ?? process.env.REACT_APP_API_URL!,
+    baseURL: baseUrl ?? import.meta.env.VITE_API_URL!,
     url: `${path}?${queryParams.join("&") || ""}`,
     headers,
   };
@@ -113,7 +152,7 @@ async function Post(
 
   const postAxiosConfig: AxiosConfig = {
     method: "post",
-    baseURL: baseUrl ?? process.env.REACT_APP_API_URL!,
+    baseURL: baseUrl ?? import.meta.env.VITE_API_URL!,
     url: `${path}?${queryParams.join("&") || ""}`,
     data: sendData,
     headers,
@@ -138,7 +177,7 @@ async function Put(
 
   const putAxiosConfig: AxiosConfig = {
     method: "put",
-    baseURL: baseUrl ?? process.env.REACT_APP_API_URL!,
+    baseURL: baseUrl ?? import.meta.env.VITE_API_URL!,
     url: `${path}?${queryParams.join("&") || ""}`,
     data: sendData,
     headers,
@@ -163,7 +202,7 @@ async function Delete(
 
   const deleteAxiosConfig: AxiosConfig = {
     method: "delete",
-    baseURL: baseUrl ?? process.env.REACT_APP_API_URL!,
+    baseURL: baseUrl ?? import.meta.env.VITE_API_URL!,
     url: `${path}?${queryParams.join("&") || ""}`,
     headers,
   };

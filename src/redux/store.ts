@@ -2,20 +2,18 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
-import { counterSliceReducer } from "./slices/counter.slice";
-import { flightSliceReducer } from "./slices/flight.slice";
+import { userSliceReducer } from "./slices/user.slice";
 import { themeSliceReducer } from "./slices/theme.slice";
 
 const rootReducers = combineReducers({
-  counter: counterSliceReducer,
-  flight: flightSliceReducer,
   theme: themeSliceReducer,
+  user: userSliceReducer,
 });
 
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["counter", "theme"],
+  whitelist: ["user", "theme"],
 };
 
 export const persistedReducer = persistReducer(persistConfig, rootReducers);

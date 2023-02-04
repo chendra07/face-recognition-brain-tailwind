@@ -1,15 +1,23 @@
 import React, { useState } from "react";
 import { toast } from "react-hot-toast";
 import { useSelector } from "react-redux";
+import { z } from "zod";
+import { fromZodError } from "zod-validation-error";
 
 import { RootState } from "../../redux/store";
 import Button from "../button";
-import { icons } from "../../assets";
 import { isPasswordValid } from "../../utils/passwordValidator";
 import AdaptiveLoading from "../loading";
 
+const zodLoginInput = z.object({
+  email: z.string().email(),
+  password: z.string().min(8),
+});
+
+type LoginInput = z.infer<typeof zodLoginInput>;
+
 type LoginProps = {
-  returnedValue: (input: { email: string; password: string }) => void;
+  returnedValue: (input: LoginInput) => void;
   isLoading: boolean;
 };
 
@@ -24,18 +32,24 @@ export default function Login({ returnedValue, isLoading }: LoginProps) {
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    if (
-      !(loginInput.password.length >= 8) ||
-      !isPasswordValid(loginInput.password)
-    ) {
+    const verifyZod = zodLoginInput.safeParse(loginInput);
+
+    if (!verifyZod.success) {
+      toast.error(`Invalid input (${fromZodError(verifyZod.error).message})`);
+      return;
+    }
+
+    if (!isPasswordValid(loginInput.password)) {
       toast.error(
-        "Password minimal charaters is 8 and contain: 1 lowecase, 1 uppercase, 1 symbol, and 1 number"
+        "Password must contain: 1 lowecase, 1 uppercase, 1 symbol, and 1 number"
       );
       return;
     }
+
+    returnedValue(loginInput);
   }
 
-  function handleChange(e: any) {
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const key = e.target.name;
     const value = e.target.value;
     setloginInput((prev) => ({ ...prev, [key]: value }));
@@ -52,19 +66,26 @@ export default function Login({ returnedValue, isLoading }: LoginProps) {
       >
         <input
           name="email"
-          type="email"
+          type="text"
           placeholder="Email"
           className="p-2 mx-8 my-2 rounded-md w-full"
           onChange={handleChange}
+          required={true}
         />
         <input
           name="password"
           type="password"
-          placeholder="password"
+          placeholder="Password"
           className="p-2 mx-8 my-2 rounded-md w-full"
           onChange={handleChange}
+          required={true}
         />
-        <Button.Primary isDisable={isLoading} action={() => {}}>
+        <Button.Primary
+          className="m-2"
+          type="submit"
+          isDisable={isLoading}
+          action={() => {}}
+        >
           {isLoading ? <AdaptiveLoading isDark={isDark} /> : "Login"}
         </Button.Primary>
       </form>
