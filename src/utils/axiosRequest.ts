@@ -92,12 +92,14 @@ function axiosPromise(axiosConfig: AxiosConfig) {
         return resolve(finalOutput as AxiosSchema);
       })
       .catch((error) => {
+        //reject error when connection timeout
         if (axios.isCancel(error)) {
           return reject({
             message: `Unable to connect, please try again`,
           });
         }
 
+        //reject error because of auth problem (ex: invalid/expired token) & auto logout
         if (error?.response?.status === 401) {
           store.dispatch(deleteUser());
           location.reload();
@@ -106,6 +108,14 @@ function axiosPromise(axiosConfig: AxiosConfig) {
           });
         }
 
+        //reject another error outside auth
+        if (error?.response?.data) {
+          return reject({
+            message: error.response.data.message,
+          });
+        }
+
+        //reject other unspecified error
         return reject({
           message: `(${axiosConfig.method.toUpperCase()}): ${error}`,
         });

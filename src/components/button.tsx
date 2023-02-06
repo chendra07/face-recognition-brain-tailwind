@@ -55,8 +55,10 @@ function Outline({
         "m-2 px-6 rounded-md transition-all",
         "border-[2px] border-solid",
         "text-slate-500 border-slate-500",
+        "dark:text-gray-200 dark:border-gray-200",
         "enabled:hover:bg-slate-500 enabled:hover:text-gray-200",
-        "active:bg-transparent active:text-slate-500",
+        "enabled:hover:dark:bg-gray-200 enabled:hover:dark:text-slate-500",
+        "active:opacity-75 active:text-slate-500",
         disabledPreset
       )}
     >
@@ -78,7 +80,7 @@ function Underline({
       disabled={isDisable}
       type={type}
       className={clsx(
-        "m-2 px-6",
+        "px-6 flex",
         "border-b-2 border-x-0 border-t-0 border-solid",
         "text-slate-500 border-slate-500",
         "enabled:hover:bg-slate-500 enabled:hover:text-gray-200",
@@ -95,7 +97,7 @@ function Underline({
   );
 }
 
-function hoverBg({
+function HoverBg({
   action,
   children,
   className,
@@ -128,5 +130,5 @@ export default {
   Primary,
   Outline,
   Underline,
-  hoverBg,
+  HoverBg,
 };

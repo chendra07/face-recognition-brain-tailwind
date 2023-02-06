@@ -8,6 +8,7 @@ import App from "./App";
 import { store } from "./redux/store";
 import { PersistGate } from "redux-persist/integration/react";
 import "./index.css";
+import "material-icons/iconfont/material-icons.css";
 
 const persistor = persistStore(store);
 

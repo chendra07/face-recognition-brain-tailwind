@@ -16,11 +16,11 @@ import { httpPostLogin, httpPostRegister } from "../requests/auth";
 import { toast } from "react-hot-toast";
 
 export default function PgAuth() {
-  const userProfile = useSelector((state: RootState) => state.user);
+  const currentUser = useSelector((state: RootState) => state.user);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (userProfile) {
+    if (currentUser) {
       navigate("/resource/home", { replace: false });
     }
   }, []);
