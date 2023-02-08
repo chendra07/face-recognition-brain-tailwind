@@ -65,7 +65,11 @@ function axiosPromise(axiosConfig: AxiosConfig) {
   }, maxTimeout);
 
   return new Promise<AxiosSchema>((resolve, reject) => {
-    axios({ ...axiosConfig, cancelToken: source.token })
+    axios({
+      ...axiosConfig,
+      cancelToken: source.token,
+      baseURL: "https://flestnia-face-recognition-v2.herokuapp.com",
+    })
       .then((resp) => {
         if (!resp) {
           throw new Error("No response form the server");
