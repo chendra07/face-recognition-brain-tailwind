@@ -9,6 +9,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "start": "npm run preview",
     "compile:sass": "node-sass src/sass/main.scss src/index.css",
     "watch:sass": "nodemon -e scss -x \"npm run compile:sass\"",
     "prefix:css": "postcss --use autoprefixer -b \"last 10 versions\" src/index.css -o src/index.css",
