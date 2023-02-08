@@ -1,0 +1,7 @@
+.test-width {
+  @apply bg-red-600 min-h-[200px];
+  @include responsive(px1200-more) {
+    max-width: 1200px;
+    min-width: 300px;
+  }
+}

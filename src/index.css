@@ -1,13 +1,6 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 :root {
   --color-primary: #ff5edf;
-  --color-primary-dark: darken(--color-primary, 20%);
-  --color-primary-light: lighten(--color-primary, 20%);
   --color-secondary: #04c8de;
-  --color-secondary-dark: darken(--color-primary, 20%);
-  --color-secondary-light: lighten(--color-primary, 20%);
   --color-grey-light-1: #faf9f9;
   --color-grey-light-2: #f4f2f2;
   --color-grey-light-3: #f0eeee;
@@ -27,7 +20,7 @@
   --color-black: #000;
   --color-btn-default: #495b78;
   --default-font-size: 3.6rem;
-  --default-border-radius: 15px; }
+  --default-border-radius: 20px; }
 
 @keyframes moveInBottom {
   0% {
@@ -52,7 +45,6 @@ html {
 
 body {
   min-height: 100vh;
-  background: linear-gradient(89deg, --color-primary 0%, --color-secondary 100%);
   background-repeat: no-repeat;
   background-size: cover; }
 
@@ -72,6 +64,9 @@ body {
   color: var(--color-text-dark-default);
   font-size: 1.6rem; }
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 .card {
   flex: 1;
   display: flex;
@@ -80,3 +75,13 @@ body {
   background-color: whitesmoke;
   box-shadow: var(--card-box-shadow);
   border-radius: var(--default-border-radius); }
+  .card__center {
+    justify-content: center;
+    align-items: center; }
+
+.test-width {
+  @apply bg-red-600 min-h-[200px]; }
+  @media (min-width: 1200px) {
+    .test-width {
+      max-width: 1200px;
+      min-width: 300px; } }

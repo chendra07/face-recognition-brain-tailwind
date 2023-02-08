@@ -1,5 +1,3 @@
-@import "vendors/root";
-
 @import "abstract/function";
 @import "abstract/mixins";
 @import "abstract/variables";
@@ -8,6 +6,7 @@
 @import "base/base";
 @import "base/typography";
 
+@import "vendors/root";
 @import "components/root";
 @import "layout/root";
 @import "pages/root";
