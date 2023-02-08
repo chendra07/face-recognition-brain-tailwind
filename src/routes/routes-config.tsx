@@ -13,7 +13,7 @@ function RouterConfig() {
         {/* <Route path="profile" element={<PgProfile />} /> */}
         <Route path="history" element={<PgHistory />} />
       </Route>
-      <Route path="*" element={<p>404 not found</p>} />
+      <Route path="*" element={<Navigate to="/auth" />} />
     </Routes>
   );
 }
