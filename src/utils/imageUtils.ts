@@ -1,3 +1,5 @@
+import axios from "axios";
+
 type ImageBox = {
   id: string;
   region_info: {
@@ -43,5 +45,15 @@ export function faceBoxCalculatorPosition(
       rightCol: width - right_col * width,
       bottomRow: height - bottom_row * height,
     };
+  });
+}
+
+export function isUrlValid(url: string) {
+  axios.get(url).then((response) => {
+    const contentType = response.headers.hasContentType;
+
+    if (contentType) {
+      console.log("content: ", contentType);
+    }
   });
 }

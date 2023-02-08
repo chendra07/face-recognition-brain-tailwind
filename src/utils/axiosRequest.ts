@@ -104,7 +104,15 @@ function axiosPromise(axiosConfig: AxiosConfig) {
           store.dispatch(deleteUser());
           location.reload();
           return reject({
-            message: `Session timeout, please login again`,
+            message: `Invalid token, please login again`,
+          });
+        }
+
+        if (error?.response?.status === 403) {
+          store.dispatch(deleteUser());
+          location.reload();
+          return reject({
+            message: `Session expired, please login again`,
           });
         }
 

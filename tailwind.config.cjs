@@ -19,9 +19,6 @@ module.exports = {
         "scr-400-less": { max: "400px" },
         "scr-300-less": { max: "300px" },
       },
-      colors: {
-        "ease-white": "#E8EAE6",
-      },
     },
   },
   plugins: [
@@ -33,4 +30,7 @@ module.exports = {
     //   });
     // }),
   ],
+  corePlugins: {
+    preflight: false,
+  },
 };

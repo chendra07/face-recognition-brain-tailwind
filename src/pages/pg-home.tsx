@@ -1,34 +1,60 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
 import { z } from "zod";
 import clsx from "clsx";
 
+//redux
+import { RootState } from "../redux/store";
+
 //requests
-import { FormInput, Button, Card } from "../components";
+import { Button, Card } from "../components";
 
 //utils
 import {
   faceBoxCalculatorPosition,
   ImageCalcOutput,
-} from "../utils/imageCalculator";
+} from "../utils/imageUtils";
 import FaceRecognition from "../components/home/faceRecognition";
+import { httpPostDetectFace } from "../requests/image";
+import { Form, Input } from "antd";
 
 export default function PgHome() {
+  const currentUser = useSelector((state: RootState) => state.user);
   const [inputImgForm, setinputImgForm] = useState("");
   const [imageUrl, setimageUrl] = useState("");
+  const [isLoading, setisLoading] = useState(false);
   const [imageCoordinates, setimageCoordinates] = useState<ImageCalcOutput[]>(
     []
   );
 
   function handleDetectFace() {
+    if (!inputImgForm) {
+      toast.error("No input detected");
+      return;
+    }
     if (!z.string().url().safeParse(inputImgForm).success) {
       toast.error("invalid url, please check your input again");
       return;
     }
 
+    setimageCoordinates([]);
     setimageUrl(inputImgForm);
+    setisLoading(true);
+    httpPostDetectFace({ imageUrl: inputImgForm }, currentUser?.token)
+      .then((imgCoordinates) => {
+        const calculatedImageCoordinates = faceBoxCalculatorPosition(
+          imgCoordinates.regions
+        );
 
-    //todo: create img request and set every coordinates to useState
+        setimageCoordinates(calculatedImageCoordinates);
+      })
+      .catch((error) => {
+        console.log(error);
+
+        toast.error(error.message);
+      })
+      .finally(() => setisLoading(false));
   }
 
   return (
@@ -43,20 +69,31 @@ export default function PgHome() {
         This Magic Brain will detect faces in your pictures. Give it a try!
       </h1>
       <Card className="w-full">
-        <div className={clsx("flex flex-1", "scr-400-less:flex-col")}>
-          <FormInput.Text
+        <Form
+          name="loginForm"
+          className="flex flex-1 px-4 scr-400-less:flex-col"
+          onFinish={(_) => handleDetectFace()}
+          onFinishFailed={(error) => console.log("Error: ", error)}
+          autoComplete="off"
+        >
+          <Input
             name="imageUrl"
-            className="flex-1 scr-400-less:mx-0"
-            placeholder="Put your image url here..."
+            type="url"
+            placeholder="Paste your image url here..."
             onChange={(e) => setinputImgForm(e.target.value)}
           />
-          <Button.Outline className="my-2 mx-4" action={handleDetectFace}>
+          <Button.Outline className="mx-4 p-2" action={handleDetectFace}>
             Detect
           </Button.Outline>
-        </div>
+        </Form>
       </Card>
+
       {imageUrl && (
-        <FaceRecognition image={imageUrl} coordinates={imageCoordinates} />
+        <FaceRecognition
+          image={imageUrl}
+          isLoading={isLoading}
+          coordinates={imageCoordinates}
+        />
       )}
     </div>
   );

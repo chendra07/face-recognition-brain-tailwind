@@ -69,9 +69,13 @@ function Password({
 
 type FileInputAttributes = {
   children: string | JSX.Element;
+  name: string;
   accept: string[];
+  handleDeleteImage: () => void;
   deleteElement?: JSX.Element | undefined;
   showDelete?: any | undefined;
+  className?: string;
+  required?: boolean;
 };
 
 function FileInput({
@@ -79,7 +83,7 @@ function FileInput({
   onChange,
   children,
   accept,
-  deleteElement,
+  handleDeleteImage,
   showDelete,
   className,
   required,
@@ -88,9 +92,9 @@ function FileInput({
     <div className="flex items-center">
       <label
         className={clsx(
-          "flex px-4 py-2 m-2 cursor-pointer rounded-md",
+          "flex px-4 py-2 m-2 cursor-pointer rounded-md transition-all",
           "border-gray-200  bg-slate-500 text-gray-200",
-          "dark:border-gray-200 dark:bg-gray-200 dark:text-slate-500",
+          // "dark:border-gray-200 dark:bg-gray-200 dark:text-slate-500",
           "hover:opacity-80",
           className
         )}
@@ -99,6 +103,7 @@ function FileInput({
         <input
           type="file"
           className="hidden"
+          style={{ display: "none" }}
           name={name}
           accept={accept.join(", ")}
           draggable={true}
@@ -107,7 +112,14 @@ function FileInput({
           required={required}
         />
       </label>
-      {showDelete && deleteElement}
+      {showDelete && (
+        <span
+          onClick={handleDeleteImage}
+          className="material-icons text-red-600 cursor-pointer active:opacity-80"
+        >
+          delete_forever
+        </span>
+      )}
     </div>
   );
 }

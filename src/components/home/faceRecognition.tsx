@@ -1,8 +1,10 @@
 import React from "react";
 import clsx from "clsx";
+import { icons } from "../../assets";
 
 type faceRecognitionProps = {
   image: string;
+  isLoading: boolean;
   coordinates: {
     leftCol: number;
     topRow: number;
@@ -13,17 +15,32 @@ type faceRecognitionProps = {
 
 export default function FaceRecognition({
   image,
+  isLoading,
   coordinates,
 }: faceRecognitionProps) {
   return (
     <div className="mx-4 my-28 relative">
-      <img
-        id="inputimage"
-        src={image}
-        alt="input image"
-        width={"500px"}
-        height={"auto"}
-      />
+      {isLoading && (
+        <div
+          className={clsx(
+            "absolute flex z-[4] h-full w-full items-center justify-center",
+            "bg-slate-700 opacity-90"
+          )}
+        >
+          <img src={icons.loadingWhite} alt="loading..." />
+        </div>
+      )}
+      <div className="max-w-[500px]">
+        <img
+          id="inputimage"
+          src={image}
+          alt="input image"
+          onError={({ currentTarget }) => {
+            currentTarget.src = icons.invalidImg;
+          }}
+          className="max-w-full h-auto z-[2]"
+        />
+      </div>
       {coordinates.map((imgCoordinate, i) => (
         <div
           key={i}

@@ -7,6 +7,7 @@ import loadingWhite from "./loading-white.svg";
 import loadingBlack from "./loading-black.svg";
 import remove from "./icons8-remove-48.png";
 import person from "./icons8-person-96.png";
+import invalidImg from "./icons8-no-image-100.png";
 
 export default {
   sun,
@@ -18,4 +19,5 @@ export default {
   loadingBlack,
   person,
   remove,
+  invalidImg,
 };

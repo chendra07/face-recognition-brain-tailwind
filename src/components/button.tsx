@@ -25,9 +25,9 @@ function Primary({
       type={type}
       className={clsx(
         className,
-        "px-6 py-2 rounded-md transition-all",
+        "px-6 py-2 rounded-md transition-all cursor-pointer",
         "bg-slate-500 shadow-gray-500 shadow-md text-gray-200",
-        "dark:bg-gray-200 dark:shadow-gray-700 dark:text-slate-500",
+        // "dark:bg-gray-200 dark:shadow-gray-700 dark:text-slate-500",
         "enabled:hover:shadow-gray-700 enabled:hover:translate-y-[-3px] enabled:hover:shadow-lg",
         "enabled:active:translate-y-[3px] enabled:active:shadow-none",
         disabledPreset
@@ -55,9 +55,9 @@ function Outline({
         "m-2 px-6 rounded-md transition-all",
         "border-[2px] border-solid",
         "text-slate-500 border-slate-500",
-        "dark:text-gray-200 dark:border-gray-200",
+        // "dark:text-gray-200 dark:border-gray-200",
         "enabled:hover:bg-slate-500 enabled:hover:text-gray-200",
-        "enabled:hover:dark:bg-gray-200 enabled:hover:dark:text-slate-500",
+        // "enabled:hover:dark:bg-gray-200 enabled:hover:dark:text-slate-500",
         "active:opacity-75 active:text-slate-500",
         disabledPreset
       )}
@@ -80,12 +80,12 @@ function Underline({
       disabled={isDisable}
       type={type}
       className={clsx(
-        "px-6 flex",
+        "px-6 py-2 flex cursor-pointer",
         "border-b-2 border-x-0 border-t-0 border-solid",
-        "text-slate-500 border-slate-500",
+        "text-slate-500 border-slate-500 bg-transparent",
         "enabled:hover:bg-slate-500 enabled:hover:text-gray-200",
-        "dark:text-gray-200 dark:border-gray-200",
-        "enabled:dark:hover:bg-gray-200 enabled:dark:hover:text-slate-500",
+        // "dark:text-gray-200 dark:border-gray-200",
+        // "enabled:dark:hover:bg-gray-200 enabled:dark:hover:text-slate-500",
         "active:opacity-80",
         "transition-all",
         disabledPreset,
@@ -110,7 +110,7 @@ function HoverBg({
       disabled={isDisable}
       type={type}
       className={clsx(
-        "px-6",
+        "px-6 bg-transparent cursor-pointer",
         "text-slate-500",
         "dark:text-gray-200",
         "enabled:hover:bg-slate-500 enabled:hover:text-gray-200",

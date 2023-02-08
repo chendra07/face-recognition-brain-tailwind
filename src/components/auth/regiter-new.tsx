@@ -43,7 +43,7 @@ export default function Register({ isLoading, returnedValue }: RegisterProps) {
     size: 0,
   });
 
-  function handleSubmit() {
+  function handleSubmit(e: Object) {
     const verifyZod = zodRegisterInput.safeParse(registerInput);
 
     if (!verifyZod.success) {
@@ -112,7 +112,7 @@ export default function Register({ isLoading, returnedValue }: RegisterProps) {
         name="registerForm"
         className="flex-1 flex flex-col px-4 pt-4"
         initialValues={{ remember: true }}
-        onFinish={(_) => handleSubmit()}
+        onFinish={(registerInput: object) => handleSubmit(registerInput)}
         onFinishFailed={(error) => console.log("Error: ", error)}
         autoComplete="off"
       >

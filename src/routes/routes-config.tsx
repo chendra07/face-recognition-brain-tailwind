@@ -1,7 +1,7 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
-import { TmpMain, PgAuth, PgHome } from "../pages";
+import { TmpMain, PgAuth, PgHome, PgHistory } from "../pages";
 
 function RouterConfig() {
   return (
@@ -10,6 +10,8 @@ function RouterConfig() {
       <Route path="/auth" element={<PgAuth />} />
       <Route path="resource" element={<TmpMain />}>
         <Route path="home" element={<PgHome />} />
+        {/* <Route path="profile" element={<PgProfile />} /> */}
+        <Route path="history" element={<PgHistory />} />
       </Route>
       <Route path="*" element={<p>404 not found</p>} />
     </Routes>

@@ -30,6 +30,8 @@ export default function Header() {
           to={"/resource/home"}
           className={clsx(
             "text-2xl opacity-80 transition-all font-bold flex",
+            "text-slate-500",
+            "dark:text-gray-200",
             "hover:text-slate-700 hover:dark:opacity-100",
             "dark:hover:text-gray-100"
           )}
@@ -38,7 +40,7 @@ export default function Header() {
         </Link>
       </div>
       <div className="flex scr-700-less:hidden">
-        <LinkBtn.HoverBg to="/resource/settings">
+        {/* <LinkBtn.HoverBg to="/resource/profile">
           <div className="flex items-center justify-center">
             <img
               src={currentUser?.image || icons.person}
@@ -47,7 +49,16 @@ export default function Header() {
             />
             <p>{currentUser?.name || "undefined"}</p>
           </div>
-        </LinkBtn.HoverBg>
+        </LinkBtn.HoverBg> */}
+
+        <div className="flex items-center justify-center p-4">
+          <img
+            src={currentUser?.image || icons.person}
+            alt="profile"
+            className="rounded-full w-[3.5rem] h-[3.5rem] object-cover bg-white mr-4"
+          />
+          <p>{currentUser?.name || "undefined"}</p>
+        </div>
 
         <LinkBtn.HoverBg to="/resource/history">
           <div className="flex items-center justify-center">
@@ -84,7 +95,7 @@ export default function Header() {
         <div
           className={clsx(
             isMenuActive ? "flex" : "hidden",
-            "absolute top-[60px] right-0 z-[1] rounded-bl-2xl shadow-xl",
+            "absolute top-[60px] right-0 z-[1] rounded-bl-2xl shadow-xl overflow-hidden",
             "w-[15rem] min-h-[5rem] pt-4 flex-col items-center",
             "dark:shadow-none",
             "dark:bg-slate-400 bg-gray-200 shadow-gray-500"
@@ -95,10 +106,12 @@ export default function Header() {
             alt="profile"
             className="rounded-full w-[6rem] h-[6rem] mb-2 object-cover bg-white mr-4"
           />
-          <LinkBtn.HoverBg className="w-full mb-2" to="/resource/settings">
+          <p className="py-2">{currentUser?.name || "Undefined"}</p>
+
+          {/* <LinkBtn.HoverBg className="w-full mb-2" to="/resource/profile">
             <p>{currentUser?.name || "Undefined"}</p>
-          </LinkBtn.HoverBg>
-          <LinkBtn.HoverBg className="w-full" to="/resource/settings">
+          </LinkBtn.HoverBg> */}
+          <LinkBtn.HoverBg className="w-full" to="/resource/history">
             <div className="flex items-center justify-center p-2">
               <span className="material-icons mr-2">history</span>
               <p>History</p>
@@ -124,7 +137,7 @@ export default function Header() {
             isMenuActive ? "flex" : "hidden",
             "absolute top-0 right-0 z-0",
             "w-screen h-screen",
-            "bg-transparent p-4 flex-col"
+            "flex-col"
           )}
         ></div>
       </div>

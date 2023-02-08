@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import { toast } from "react-hot-toast";
-import { useSelector } from "react-redux";
 import { z } from "zod";
 import { fromZodError } from "zod-validation-error";
+import { toast } from "react-hot-toast";
+import { Form, Input } from "antd";
+import { useDebouncedCallback } from "use-debounce";
 
-import { RootState } from "../../redux/store";
-import Button from "../button";
 import { isPasswordValid } from "../../utils/passwordValidator";
-import AdaptiveLoading from "../loading";
+
+import { Button, AdaptiveLoading } from "..";
 
 const zodLoginInput = z.object({
   email: z.string().email(),
@@ -21,17 +21,13 @@ type LoginProps = {
   isLoading: boolean;
 };
 
-export default function Login({ returnedValue, isLoading }: LoginProps) {
+export default function Login({ isLoading, returnedValue }: LoginProps) {
   const [loginInput, setloginInput] = useState({
     email: "",
     password: "",
   });
 
-  const { isDark } = useSelector((state: RootState) => state.theme);
-
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-
+  const handleSubmits = useDebouncedCallback((loginInput: object) => {
     const verifyZod = zodLoginInput.safeParse(loginInput);
 
     if (!verifyZod.success) {
@@ -39,56 +35,54 @@ export default function Login({ returnedValue, isLoading }: LoginProps) {
       return;
     }
 
-    if (!isPasswordValid(loginInput.password)) {
+    const verifiedLoginInput = loginInput as LoginInput;
+
+    if (!isPasswordValid(verifiedLoginInput.password)) {
       toast.error(
         "Password must contain: 1 lowecase, 1 uppercase, 1 symbol, and 1 number"
       );
       return;
     }
 
-    returnedValue(loginInput);
-  }
-
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const key = e.target.name;
-    const value = e.target.value;
-    setloginInput((prev) => ({ ...prev, [key]: value }));
-  }
+    returnedValue(verifiedLoginInput);
+  }, 500);
 
   return (
     <div className="flex-1 w-full">
-      <h1 className="text-slate-500 dark:text-gray-200 text-center text-5xl m-2">
-        Login
-      </h1>
-      <form
-        className="flex-1 flex flex-col items-center"
-        onSubmit={(e) => handleSubmit(e)}
+      <Form
+        name="loginForm"
+        className="flex-1 px-4 pt-4"
+        initialValues={{ remember: true }}
+        onFinish={(loginInput: object) => handleSubmits(loginInput)}
+        onFinishFailed={(error) => console.log("Error: ", error)}
+        autoComplete="off"
       >
-        <input
+        <h1 className="text-slate-500 text-center text-5xl mb-8">Login</h1>
+        <Form.Item
           name="email"
-          type="text"
-          placeholder="Email"
-          className="p-2 mx-8 my-2 rounded-md w-full"
-          onChange={handleChange}
-          required={true}
-        />
-        <input
-          name="password"
-          type="password"
-          placeholder="Password"
-          className="p-2 mx-8 my-2 rounded-md w-full"
-          onChange={handleChange}
-          required={true}
-        />
-        <Button.Primary
-          className="m-2"
-          type="submit"
-          isDisable={isLoading}
-          action={() => {}}
+          rules={[
+            {
+              required: true,
+              type: "email",
+              message: "Please input your email!",
+            },
+          ]}
         >
-          {isLoading ? <AdaptiveLoading isDark={isDark} /> : "Login"}
-        </Button.Primary>
-      </form>
+          <Input placeholder="Email" />
+        </Form.Item>
+
+        <Form.Item
+          name="password"
+          rules={[{ required: true, message: "Please input your password!" }]}
+        >
+          <Input.Password placeholder="Password" />
+        </Form.Item>
+        <Form.Item className="flex items-center justify-center">
+          <Button.Primary type="submit">
+            {isLoading ? <AdaptiveLoading isDark={false} /> : "Login"}
+          </Button.Primary>
+        </Form.Item>
+      </Form>
     </div>
   );
 }
